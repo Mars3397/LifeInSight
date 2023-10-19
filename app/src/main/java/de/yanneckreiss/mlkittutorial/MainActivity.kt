@@ -48,6 +48,7 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.isGranted
 import androidx.compose.ui.graphics.Color as backGroundColor
 import android.content.Intent
+import androidx.compose.material.icons.filled.ImageSearch
 import de.yanneckreiss.mlkittutorial.ChatRoom
 
 class MainActivity : ComponentActivity() {
@@ -120,7 +121,7 @@ class MainActivity : ComponentActivity() {
 
                 Box(
                     modifier = Modifier
-                        .size(80.dp)
+                        .size(100.dp)
                         .padding(16.dp)
                         .background(backGroundColor.White, CircleShape)
                         .clickable {
@@ -143,6 +144,25 @@ class MainActivity : ComponentActivity() {
                     )
                 }
 
+                Box(
+                    modifier = Modifier
+                        .size(100.dp)
+                        .padding(16.dp)
+                        .background(backGroundColor.White, CircleShape)
+                        .align(Alignment.BottomEnd)
+                        .clickable {
+                            val intent = Intent(context, ChatRoom::class.java)
+                            startActivity(intent)
+                        }
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.ImageSearch,
+                        contentDescription = "Take a photo",
+                        modifier = Modifier
+                            .size(48.dp)
+                            .align(Alignment.Center)
+                    )
+                }
             }
         }
     }
