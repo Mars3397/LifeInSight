@@ -81,14 +81,14 @@ public class ChatRoom extends AppCompatActivity {
 
     private String recognizedText;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
 
         String detectText = getIntent().getStringExtra("detectText");
-        Context toastContext = getApplicationContext();
-        Toast.makeText(toastContext, detectText, Toast.LENGTH_SHORT).show();
+        messageList.add(new Message(detectText.toString(), Message.SEND_BY_BOT));
 
 
         StringBuilder context = new StringBuilder();
@@ -117,17 +117,9 @@ public class ChatRoom extends AppCompatActivity {
             buildDialog(ChatRoom.this).show();
         }
 
-//        REC_btn.setOnClickListener(view -> askSpeechInput());
+        REC_btn = findViewById(R.id.button);
+        REC_btn.setOnClickListener(view -> askSpeechInput());
 
-//        record_btn.setOnClickListener(view -> {
-//            tts = new TextToSpeech(getApplicationContext(), status -> {
-//                if (status == TextToSpeech.SUCCESS) {
-//                    tts.setLanguage(Locale.US);
-//                    tts.setSpeechRate(1.0f);
-//                    tts.speak(message_text_text.getText().toString().trim(), TextToSpeech.QUEUE_ADD, null, null);
-//                }
-//            });
-//        });
 
 
 
@@ -191,9 +183,11 @@ public class ChatRoom extends AppCompatActivity {
             ArrayList<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             if (results != null && !results.isEmpty()) {
                 recognizedText = results.get(0);
+                message_text_text.setText(recognizedText);
             }
         }
     }
+
 
     void addToChat (String message, String sendBy){
         runOnUiThread(new Runnable() {
