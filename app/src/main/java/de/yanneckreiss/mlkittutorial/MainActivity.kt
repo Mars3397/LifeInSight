@@ -46,11 +46,13 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.isGranted
 import androidx.compose.ui.graphics.Color as backGroundColor
 import android.content.Intent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.filled.ImageSearch
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
 import de.yanneckreiss.cameraxtutorial.R
@@ -150,7 +152,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Box(
                         modifier = Modifier
-                            .size(135.dp)
+                            .size(130.dp)
                             .padding(20.dp)
                             .background(backGroundColor.White, CircleShape)
                             .align(Alignment.BottomCenter)
@@ -169,7 +171,7 @@ class MainActivity : ComponentActivity() {
                             painter = painterResource(id = R.drawable.ic_capture),
                             contentDescription = "Take a photo",
                             modifier = Modifier
-                                .size(65.dp)
+                                .size(80.dp)
                                 .align(Alignment.Center)
                         )
                     }
@@ -178,18 +180,17 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier
                             .size(135.dp)
                             .padding(20.dp)
-                            .background(backGroundColor.White, CircleShape)
                             .align(Alignment.BottomEnd)
                             .clickable {
                                 val intent = Intent(context, ChatRoom::class.java)
                                 startActivity(intent)
                             }
                     ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_search),
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_object),
                             contentDescription = "Search Item",
                             modifier = Modifier
-                                .size(65.dp)
+                                .size(75.dp)
                                 .align(Alignment.Center)
                         )
                     }
