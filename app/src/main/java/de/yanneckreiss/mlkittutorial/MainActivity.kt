@@ -51,7 +51,9 @@ import androidx.compose.material.icons.filled.ImageSearch
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
+import de.yanneckreiss.cameraxtutorial.R
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalPermissionsApi::class)
@@ -121,7 +123,8 @@ class MainActivity : ComponentActivity() {
                 )
 
                 Box(
-                    modifier = Modifier.fillMaxWidth(0.6f)
+                    modifier = Modifier
+                        .fillMaxWidth(0.6f)
                         .padding(top = 10.dp)
                         .align(Alignment.TopCenter)
                         .alpha(0.7f)
@@ -163,7 +166,7 @@ class MainActivity : ComponentActivity() {
                             }
                     ) {
                         Icon(
-                            imageVector = Icons.Default.Camera,
+                            painter = painterResource(id = R.drawable.ic_capture),
                             contentDescription = "Take a photo",
                             modifier = Modifier
                                 .size(65.dp)
@@ -183,7 +186,7 @@ class MainActivity : ComponentActivity() {
                             }
                     ) {
                         Icon(
-                            imageVector = Icons.Filled.ImageSearch,
+                            painter = painterResource(id = R.drawable.ic_search),
                             contentDescription = "Search Item",
                             modifier = Modifier
                                 .size(65.dp)
