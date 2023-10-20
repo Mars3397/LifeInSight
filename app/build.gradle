@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -47,10 +48,11 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+    dataBinding.enabled = true
 }
 
 dependencies {
-
+    kapt "com.android.databinding:compiler:version"
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.10.0'
     lintChecks("com.slack.lint.compose:compose-lint-checks:1.2.0")
@@ -80,6 +82,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
 
     //// CAMERA STUFF ////
+    implementation "androidx.camera:camera-core:$camerax_version"
     implementation "androidx.camera:camera-camera2:$camerax_version"
     implementation "androidx.camera:camera-lifecycle:$camerax_version"
     implementation "androidx.camera:camera-view:$camerax_version"
@@ -104,4 +107,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.8.0'
 
 
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+
+    implementation 'org.pytorch:pytorch_android_lite:1.10.0'
+    implementation 'org.pytorch:pytorch_android_torchvision_lite:1.10.0'
 }

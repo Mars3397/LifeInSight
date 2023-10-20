@@ -181,7 +181,7 @@ class MainActivity : ComponentActivity() {
                             .background(backGroundColor.White, CircleShape)
                             .align(Alignment.BottomEnd)
                             .clickable {
-                                val intent = Intent(context, ChatRoom::class.java)
+                                val intent = Intent(context, ObjectDetectionActivity::class.java)
                                 startActivity(intent)
                             }
                     ) {
