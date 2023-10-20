@@ -19,10 +19,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Camera
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
@@ -48,7 +46,12 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.isGranted
 import androidx.compose.ui.graphics.Color as backGroundColor
 import android.content.Intent
-import de.yanneckreiss.mlkittutorial.ChatRoom
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.icons.filled.ImageSearch
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.unit.sp
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalPermissionsApi::class)
@@ -85,8 +88,7 @@ class MainActivity : ComponentActivity() {
         }
 
         Scaffold(
-            modifier = Modifier.fillMaxSize(),
-            topBar = { TopAppBar(title = { Text("Access Pro") }) },
+            modifier = Modifier.fillMaxSize()
         ) { paddingValues: PaddingValues ->
             Box(
                 modifier = Modifier.fillMaxSize(),
@@ -119,30 +121,76 @@ class MainActivity : ComponentActivity() {
                 )
 
                 Box(
-                    modifier = Modifier
-                        .size(80.dp)
-                        .padding(16.dp)
-                        .background(backGroundColor.White, CircleShape)
-                        .clickable {
-                            val intent = Intent(context, ChatRoom::class.java)
-                            if (detectedText != "") {
-                                intent.putExtra("detectText", detectedText)
-                            } else {
-                                intent.putExtra("detectText", "No text detected yet..")
-                            }
-
-                            startActivity(intent)
-                        }
+                    modifier = Modifier.fillMaxWidth(0.6f)
+                        .padding(top = 10.dp)
+                        .align(Alignment.TopCenter)
+                        .alpha(0.7f)
+                        .background(backGroundColor.Black, shape = RoundedCornerShape(50.dp)),
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Camera,
-                        contentDescription = "Take a photo",
+                    Text(
+                        text = "文字放大鏡",
+                        color = backGroundColor.White,
+                        textAlign = TextAlign.Center,
+                        fontSize = 26.sp,
                         modifier = Modifier
-                            .size(48.dp)
+                            .padding(10.dp)
                             .align(Alignment.Center)
                     )
                 }
 
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomCenter)
+                        .alpha(0.7f)
+                        .background(backGroundColor.Black),
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(135.dp)
+                            .padding(20.dp)
+                            .background(backGroundColor.White, CircleShape)
+                            .align(Alignment.BottomCenter)
+                            .clickable {
+                                val intent = Intent(context, ChatRoom::class.java)
+                                if (detectedText != "") {
+                                    intent.putExtra("detectText", detectedText)
+                                } else {
+                                    intent.putExtra("detectText", "No text detected yet..")
+                                }
+
+                                startActivity(intent)
+                            }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Camera,
+                            contentDescription = "Take a photo",
+                            modifier = Modifier
+                                .size(65.dp)
+                                .align(Alignment.Center)
+                        )
+                    }
+
+                    Box(
+                        modifier = Modifier
+                            .size(135.dp)
+                            .padding(20.dp)
+                            .background(backGroundColor.White, CircleShape)
+                            .align(Alignment.BottomEnd)
+                            .clickable {
+                                val intent = Intent(context, ChatRoom::class.java)
+                                startActivity(intent)
+                            }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.ImageSearch,
+                            contentDescription = "Search Item",
+                            modifier = Modifier
+                                .size(65.dp)
+                                .align(Alignment.Center)
+                        )
+                    }
+                }
             }
         }
     }
