@@ -61,6 +61,7 @@ import okhttp3.Response;
 import de.yanneckreiss.cameraxtutorial.R;
 import android.content.Context;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 public class ChatRoom extends AppCompatActivity {
 
@@ -71,7 +72,6 @@ public class ChatRoom extends AppCompatActivity {
     ImageView send_btn;
     List<Message> messageList = new ArrayList<>();
     MessageAdapter messageAdapter;
-
     Button REC_btn;
 
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
@@ -119,7 +119,6 @@ public class ChatRoom extends AppCompatActivity {
 
         REC_btn = findViewById(R.id.button);
         REC_btn.setOnClickListener(view -> askSpeechInput());
-
 
 
 
