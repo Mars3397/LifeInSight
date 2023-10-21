@@ -22,49 +22,60 @@
         android:layout_height="match_parent"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/back2Text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="返回" />
 
     <Button
         android:id="@+id/recButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="212dp"
-        android:layout_marginEnd="160dp"
-        android:hint="語音尋找"
-        android:text="語音尋找"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <!--    <EditText-->
-    <!--        android:id="@+id/message_text_text"-->
-    <!--        android:layout_width="410dp"-->
-    <!--        android:layout_height="88dp"-->
-    <!--        android:layout_centerVertical="true"-->
-    <!--        android:hint="Type your message"-->
-    <!--        android:padding="10dp"-->
-    <!--        android:textColor="@android:color/black"-->
-    <!--        tools:layout_editor_absoluteX="-39dp"-->
-    <!--        tools:layout_editor_absoluteY="233dp" />-->
-
-    <TextView
-        android:id="@+id/OjbectGuide"
-        android:layout_width="408dp"
-        android:layout_height="158dp"
-        android:text="要尋找什麼呢？"
-        android:textAlignment="center"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="30dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_corner_background"
+        android:hint="@string/mode_hint"
+        android:text="@string/mode_hint"
+        android:letterSpacing="0.2"
+        android:textSize="22sp"
         android:textColor="#FFFFFF"
-        android:textSize="34sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/bottomBar"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:background="#80000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/OjbectGuide"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="5dp"
+            android:text="@string/default_search_hint"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="28sp" />
+
+        <ImageView
+            android:id="@+id/rightIcon"
+            android:layout_width="wrap_content"
+            android:padding="20dp"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/text_mode"
+            android:src="@drawable/text_mode"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/OjbectGuide" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

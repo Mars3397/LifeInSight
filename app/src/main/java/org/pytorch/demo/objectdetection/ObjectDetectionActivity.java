@@ -44,6 +44,7 @@ public class ObjectDetectionActivity extends AbstractCameraXActivity<ObjectDetec
     private Module mModule = null;
     private ResultView mResultView;
     private TextView ObjectGuide;
+    private Button REC_btn;
     private String targetObject = "";
     private int targetID = -1;
     private final Handler handler = new Handler();
@@ -59,15 +60,8 @@ public class ObjectDetectionActivity extends AbstractCameraXActivity<ObjectDetec
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final Button buttonBack = findViewById(R.id.back2Text);
-        buttonBack.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-              final Intent intent = new Intent(ObjectDetectionActivity.this, MainActivity.class);
-              startActivity(intent);
-            }
-        });
 
-        Button REC_btn = findViewById(R.id.recButton);
+        REC_btn = findViewById(R.id.recButton);
         REC_btn.setOnClickListener(view -> askSpeechInput());
         REC_btn.performClick();
         ObjectGuide = (TextView) findViewById(R.id.OjbectGuide);
@@ -95,6 +89,7 @@ public class ObjectDetectionActivity extends AbstractCameraXActivity<ObjectDetec
             mResultView.location = "";
             if (recResults != null && !recResults.isEmpty()) {
                 targetObject = recResults.get(0);
+                REC_btn.setText("再找一次");
                 ObjectGuide.setText("正在尋找" + targetObject + "，請緩慢移動鏡頭");
                 int lineCount = 0;
                 try (BufferedReader br = new BufferedReader(new InputStreamReader(getAssets().open("classes.txt")))) {
