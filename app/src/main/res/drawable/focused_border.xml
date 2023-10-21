@@ -1,0 +1,18 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 非焦点状态 -->
+    <item android:state_focused="false">
+        <shape>
+            <solid android:color="#FFFFFF" /> <!-- 非焦点状态下的背景颜色 -->
+            <stroke android:width="0dp" /> <!-- 0dp 边框宽度，即无边框 -->
+        </shape>
+    </item>
+
+    <!-- 焦点状态 -->
+    <item android:state_focused="true">
+        <shape>
+            <stroke
+                android:width="5dp"
+                android:color="#00FF00" /> <!-- 2dp 边框宽度和颜色 -->
+        </shape>
+    </item>
+</selector>

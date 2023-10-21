@@ -1,4 +1,13 @@
 <resources>
-    <string name="app_name">Access Pro</string>
-    <string name="app_hint">Ask anything! Chat bot is ready to answer it.</string>
+    <string name="app_name">meichu</string>
+    <string name="enter_text">enter text</string>
+    <string name="speak">speak</string>
+    <string name="click_to_speak" />
+    <string name="textview">TextView</string>
+    <string name="text">text</string>
+    <string name="accessibility_service_label" />
+    <string name="accessibility_service_description" />
+    <string name="permission">permission</string>
+    <string name="transparent_screen">transparent_screen</string>
+    <string name="todo">TODO</string>
 </resources>
