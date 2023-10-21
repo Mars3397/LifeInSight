@@ -21,6 +21,7 @@ package de.yanneckreiss.mlkittutorial;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -29,6 +30,8 @@ import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,9 +52,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -75,11 +80,19 @@ public class ChatRoom extends AppCompatActivity {
     Button REC_btn;
 
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
-    OkHttpClient client = new OkHttpClient();
+    OkHttpClient client = new OkHttpClient.Builder()
+            .connectTimeout(120, TimeUnit.SECONDS)
+            .readTimeout(120, TimeUnit.SECONDS)
+            .build();
 
     private TextToSpeech tts;
 
     private String recognizedText;
+
+    StringBuilder context = new StringBuilder();
+
+    private AudioManager audioManager;
+    private AudioManager.OnAudioFocusChangeListener audioFocusChangeListener;
 
 
     @Override
@@ -88,10 +101,15 @@ public class ChatRoom extends AppCompatActivity {
         setContentView(R.layout.activity_chat_room);
 
         String detectText = getIntent().getStringExtra("detectText");
-        messageList.add(new Message(detectText.toString(), Message.SEND_BY_BOT));
+        callAPI("請幫我排版並潤飾文字，要潤飾文字拜託，寫出潤飾後的文字就好不要念出問題，用繁體中文：\n" + detectText);
+
+        context.append(detectText);
+        context.append("\n");
+
+//        messageList.add(new Message(detectText.toString(), Message.SEND_BY_BOT));
 
 
-        StringBuilder context = new StringBuilder();
+
 
 //        record_btn = findViewById(R.id.record_button);
 
@@ -138,9 +156,9 @@ public class ChatRoom extends AppCompatActivity {
                         addToChat(question,Message.SEND_BY_ME);
                         message_text_text.setText("");
 
-                        context.append(question);
+                        context.append("我說：" + question);
                         context.append("\n");
-                        callAPI(context.toString());
+                        callAPI(context.toString() + "根據上面的對話，做最後面那件事情，不要再複誦一次問題，用繁體中文\n");
                     });
                 }
             }
@@ -183,7 +201,13 @@ public class ChatRoom extends AppCompatActivity {
             ArrayList<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             if (results != null && !results.isEmpty()) {
                 recognizedText = results.get(0);
-                message_text_text.setText(recognizedText);
+
+                String question = recognizedText;
+                addToChat(question,Message.SEND_BY_ME);
+                context.append("我說：" + question);
+                context.append("\n");
+                callAPI(context.toString() + "根據上面的對話，做最後面那件事情，不要再複誦一次問題，用繁體中文\n");
+
             }
         }
     }
@@ -203,6 +227,8 @@ public class ChatRoom extends AppCompatActivity {
     void addResponse(String response){
         messageList.remove(messageList.size()-1);
         addToChat(response, Message.SEND_BY_BOT);
+        context.append("你說：\n" + response);
+        context.append("\n");
     } // addResponse End Here =======
 
     void callAPI(String question){
@@ -218,6 +244,7 @@ public class ChatRoom extends AppCompatActivity {
             messageObject.put("content", question);
             messagesArray.put(messageObject);
             jsonBody.put("messages", messagesArray);
+//            jsonBody.put("stream", true);
 
         } catch (JSONException e) {
             throw new RuntimeException(e);
@@ -229,6 +256,24 @@ public class ChatRoom extends AppCompatActivity {
                 .header("Authorization","Bearer "+API.API)
                 .post(requestBody)
                 .build();
+
+
+//        OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
+//                    @NonNull
+//                    @Override
+//                    public Response intercept(@NonNull Interceptor.Chain chain) throws IOException {
+//                        Request original = chain.request();
+//                        Request request = original.newBuilder()
+//                                .url(API.API_URL)
+//                                .header("Authorization","Bearer "+API.API)
+//                                .post(requestBody)
+//                                .build();
+//                        return chain.proceed(request);
+//                    }
+//                })
+//                .connectTimeout(30, TimeUnit.MINUTES)
+//                .readTimeout(30, TimeUnit.MINUTES)
+//                .build();
 
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -244,15 +289,36 @@ public class ChatRoom extends AppCompatActivity {
                         jsonObject = new JSONObject(response.body().string());
                         JSONArray jsonArray = jsonObject.getJSONArray("choices");
                         String result = jsonArray.getJSONObject(0).getJSONObject("message").getString("content");
+
+//                        String responseBody = response.body().string();
+//                        Log.d("Response", responseBody);
+
+//                        jsonObject = new JSONObject(response.body().string());
+//                        JSONArray jsonArray = jsonObject.getJSONArray("choices");
+//                        String result = jsonArray.getJSONObject(0).getJSONObject("delta").getString("content");
                         addResponse(result.trim());
+
+
 
                         tts = new TextToSpeech(getApplicationContext(), status -> {
                             if (status == TextToSpeech.SUCCESS) {
-                                tts.setLanguage(Locale.US);
-                                tts.setSpeechRate(1.0f);
+                                Locale chineseLocale = new Locale("zh", "CN");
+                                tts.setLanguage(chineseLocale);
+                                tts.setSpeechRate(2.0f);
                                 tts.speak(result.trim(), TextToSpeech.QUEUE_ADD, null, null);
                             }
                         });
+
+
+
+                        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+                        audioFocusChangeListener = focusChange -> {
+                            if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
+                                if (tts != null) {
+                                    tts.stop();
+                                }
+                            }
+                        };
 
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
@@ -265,6 +331,17 @@ public class ChatRoom extends AppCompatActivity {
         });
 
     } // callAPI End Here =============
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+            if (tts != null) {
+                tts.stop();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
     public boolean isConnected(Context context){
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
