@@ -1,7 +1,6 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
 }
 
 android {
@@ -52,7 +51,6 @@ android {
 }
 
 dependencies {
-    kapt "com.android.databinding:compiler:version"
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.10.0'
     lintChecks("com.slack.lint.compose:compose-lint-checks:1.2.0")

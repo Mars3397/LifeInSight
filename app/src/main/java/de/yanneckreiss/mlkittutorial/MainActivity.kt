@@ -1,28 +1,34 @@
 package de.yanneckreiss.mlkittutorial
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.UiThread
+import androidx.annotation.WorkerThread
 import androidx.camera.core.AspectRatio
+import androidx.camera.core.ExperimentalGetImage
+import androidx.camera.core.ImageAnalysis
+import androidx.camera.core.ImageProxy
 import androidx.camera.view.CameraController
 import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Camera
-import androidx.compose.foundation.background
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -33,27 +39,23 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionState
-import de.yanneckreiss.mlkittutorial.ui.theme.JetpackComposeMLKitTutorialTheme
-import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.isGranted
-import androidx.compose.ui.graphics.Color as backGroundColor
-import android.content.Intent
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.icons.filled.ImageSearch
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.sp
+import com.google.accompanist.permissions.rememberPermissionState
 import de.yanneckreiss.cameraxtutorial.R
+import de.yanneckreiss.mlkittutorial.ui.theme.JetpackComposeMLKitTutorialTheme
+import androidx.compose.ui.graphics.Color as backGroundColor
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalPermissionsApi::class)
@@ -87,6 +89,10 @@ class MainActivity : ComponentActivity() {
 
         fun onTextUpdated(updatedText: String) {
             detectedText = updatedText
+        }
+
+        fun releaseCamera() {
+            cameraController.unbind()
         }
 
         Scaffold(
@@ -181,6 +187,7 @@ class MainActivity : ComponentActivity() {
                             .background(backGroundColor.White, CircleShape)
                             .align(Alignment.BottomEnd)
                             .clickable {
+                                releaseCamera()
                                 val intent = Intent(context, ObjectDetectionActivity::class.java)
                                 startActivity(intent)
                             }

@@ -45,7 +45,8 @@
         <activity
             android:name="de.yanneckreiss.mlkittutorial.ObjectDetectionActivity"
             android:configChanges="orientation"
-            android:screenOrientation="fullSensor">
+            android:screenOrientation="fullSensor"
+            android:theme="@style/Theme.AppCompat">
         </activity>
     </application>
 

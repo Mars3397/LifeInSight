@@ -20,7 +20,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.OptIn;
 import androidx.annotation.WorkerThread;
+import androidx.camera.core.ExperimentalGetImage;
 import androidx.camera.core.ImageProxy;
 
 import org.pytorch.IValue;
@@ -34,6 +36,8 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Locale;
+
+import de.yanneckreiss.cameraxtutorial.R;
 
 public class ObjectDetectionActivity extends AbstractCameraXActivity<ObjectDetectionActivity.AnalysisResult> {
     private static final int RQ_SPEECH_REC = 102;
@@ -144,17 +148,12 @@ public class ObjectDetectionActivity extends AbstractCameraXActivity<ObjectDetec
         return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
     }
 
-    @Override
+    @OptIn(markerClass = ExperimentalGetImage.class) @Override
     @WorkerThread
     @Nullable
     protected AnalysisResult analyzeImage(ImageProxy image, int rotationDegrees) {
-        try {
-            if (mModule == null) {
-                mModule = LiteModuleLoader.load(MainActivity.assetFilePath(getApplicationContext(), "custom1.ptl"));
-            }
-        } catch (IOException e) {
-            Log.e("Object Detection", "Error reading assets", e);
-            return null;
+        if (mModule == null) {
+            mModule = LiteModuleLoader.load("custom1.ptl");
         }
         Bitmap bitmap = imgToBitmap(image.getImage());
         Matrix matrix = new Matrix();
