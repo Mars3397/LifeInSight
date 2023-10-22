@@ -9,4 +9,6 @@
     <string name="text_mode">文字模式</string>
     <string name="default_search_hint">要尋找什麼呢？</string>
     <string name="mode_hint">尋找物體</string>
+    <string name="accessibility_service_description" />
+    <string name="screen" />
 </resources>

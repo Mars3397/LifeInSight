@@ -1155,6 +1155,7 @@ string abc_searchview_description_voice
 string abc_shareactionprovider_share_with
 string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
+string accessibility_service_description
 string app_name
 string default_search_hint
 string detect
@@ -1163,6 +1164,7 @@ string live
 string mode_hint
 string restart
 string run_model
+string screen
 string search_menu_title
 string select
 string status_bar_notification_info_overflow
@@ -1589,3 +1591,4 @@ styleable Variant constraints region_heightLessThan region_heightMoreThan region
 styleable View android_theme android_focusable paddingEnd paddingStart theme
 styleable ViewBackgroundHelper android_background backgroundTint backgroundTintMode
 styleable ViewStubCompat android_id android_layout android_inflatedId
+xml accessibility_service_config

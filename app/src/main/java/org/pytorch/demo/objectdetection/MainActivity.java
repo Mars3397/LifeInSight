@@ -20,8 +20,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -42,6 +46,8 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements Runnable {
     private ImageView mImageView;
+
+
 
     public static String assetFilePath(Context context, String assetName) throws IOException {
         File file = new File(context.getFilesDir(), assetName);
@@ -65,6 +71,9 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
@@ -91,6 +100,11 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
         final Intent intent = new Intent(MainActivity.this, ObjectDetectionActivity.class);
         startActivity(intent);
+
+        startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
+
+
+
     }
 
     @Override
@@ -138,4 +152,8 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     public void run() {
 
     }
+
+
+
+
 }

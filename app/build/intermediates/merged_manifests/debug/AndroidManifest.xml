@@ -8,9 +8,14 @@
         android:minSdkVersion="28"
         android:targetSdkVersion="30" />
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
 
     <application
         android:allowBackup="true"
@@ -38,6 +43,20 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait" >
         </activity>
+
+        <service
+            android:name="org.pytorch.demo.objectdetection.MyAccessibilityService"
+            android:exported="true"
+            android:label="MEICHUHACK Accessibility Service"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" >
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config" />
+
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+        </service>
 
         <provider
             android:name="androidx.camera.camera2.impl.Camera2Initializer"
