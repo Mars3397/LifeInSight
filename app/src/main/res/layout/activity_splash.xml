@@ -11,7 +11,7 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_centerInParent="true"
-        android:src="@drawable/chatbot_logo" />
+        android:src="@drawable/logo" />
 
 <TextView
     android:layout_width="wrap_content"

@@ -222,7 +222,7 @@ public class ChatRoom extends AppCompatActivity {
 
     void callAPI(String question){
         // okhttp
-        messageList.add(new Message("Typing...", Message.SEND_BY_BOT));
+        messageList.add(new Message("正在為您努力處理中 請稍候 ...", Message.SEND_BY_BOT));
 
         JSONObject jsonBody = new JSONObject();
         try {
