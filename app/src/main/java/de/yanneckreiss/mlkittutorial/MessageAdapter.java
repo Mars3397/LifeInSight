@@ -18,6 +18,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
 
     List<Message> messageList;
 
+    public float textSize = 22;
+
     public MessageAdapter(List<Message> messageList) {
         this.messageList = messageList;
     }
@@ -36,11 +38,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
             holder.left_chat_view.setVisibility(View.GONE);
             holder.right_chat_view.setVisibility(View.VISIBLE);
             holder.right_chat_text_view.setText(message.getMessage());
-//            holder.right_chat_text_view.setTextSize(18f);
+            holder.right_chat_text_view.setTextSize(textSize);
         } else {
             holder.right_chat_view.setVisibility(View.GONE);
             holder.left_chat_view.setVisibility(View.VISIBLE);
             holder.left_chat_text_view.setText(message.getMessage());
+            holder.left_chat_text_view.setTextSize(textSize);
         }
 
     }
