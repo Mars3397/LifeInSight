@@ -1,4 +1,4 @@
-# LifeInSight 生活視界
+# LifeInSight
 
 [English](#english) | [繁體中文](#traditional-chinese)
 
